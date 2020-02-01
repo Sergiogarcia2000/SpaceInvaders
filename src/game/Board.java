@@ -27,11 +27,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private final Set<Integer> pressed = new HashSet<>();
     private int actualTime = 0;
 
+    private boolean unpaused, gameOver;
+
     private boolean showCollisionBoxes = false;
 
     public Board(){
         ship = new Ship();
 
+        unpaused = true;
+        gameOver = false;
         Timer timer = new Timer(17, this);
         timer.start();
     }
@@ -49,8 +53,38 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         drawMissil(g2D);
         drawAsteroid(g2D);
 
+        if (!unpaused) {
+            drawPausedScreen(g2D);
+        }else if (gameOver){
+            drawGameOverScreen(g2D);
+        }
+
         actualTime++;
-        //System.out.println(actualTime);
+
+    }
+
+    private void restartGame(){
+        ship = new Ship();
+        misils.clear();
+        asteroids.clear();
+        pressed.clear();
+    }
+
+    private void drawGameOverScreen(Graphics2D g2D){
+        g2D.setPaint(Color.red);
+        g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(30)));
+        g2D.drawString("GAME OVER", Conversor.getAdaptedResolutionWidth(250), Conversor.getHeight() / 2);
+        g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(15)));
+        g2D.drawString("Press ENTER to resume", Conversor.getAdaptedResolutionWidth(260), (Conversor.getHeight() / 2) + Conversor.getAdaptedResolutionWidth(20));
+
+    }
+
+    private void drawPausedScreen(Graphics2D g2D){
+        g2D.setPaint(Color.WHITE);
+        g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(30)));
+        g2D.drawString("GAME PAUSED", Conversor.getAdaptedResolutionWidth(250), Conversor.getHeight() / 2);
+        g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(15)));
+        g2D.drawString("Press ESC to resume", Conversor.getAdaptedResolutionWidth(280), (Conversor.getHeight() / 2) + Conversor.getAdaptedResolutionWidth(20));
     }
 
     private void drawAsteroid(Graphics2D g2D){
@@ -116,7 +150,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         ship.move();
 
         if (ship.getLife() <= 0){
-            ship.setVisible(false);
+            gameOver = true;
         }
 
     }
@@ -138,8 +172,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
                 if (asteroids.get(i).getLifeTime() <= 0)
                     asteroids.remove(asteroids.get(i));
             }
-
-        //System.out.println("Asteroids: " + asteroids.size());
     }
 
     private void tick(){
@@ -151,7 +183,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        tick();
+        if (unpaused && !gameOver)
+            tick();
+
         repaint();
     }
 
@@ -170,21 +204,23 @@ public class Board extends JPanel implements ActionListener, KeyListener{
            ship.setVelX(Conversor.getAdaptedResolutionWidth(-8));
         }
 
-        if (pressed.contains(KeyEvent.VK_K)){
-            asteroids.add(new Asteroid(Conversor.getAdaptedResolutionWidth(new Random().nextInt(Conversor.getWidth() - Conversor.getAdaptedResolutionWidth(48))), Conversor.getAdaptedResolutionHeight(-48)));
+        if (pressed.contains(KeyEvent.VK_ESCAPE) && !gameOver)
+            unpaused = !unpaused;
+
+        if (pressed.contains(KeyEvent.VK_ENTER) && gameOver) {
+            gameOver = false;
+            restartGame();
         }
 
-        if (pressed.contains(KeyEvent.VK_H)){
-            if (showCollisionBoxes){
-                showCollisionBoxes = false;
-            }else if (!showCollisionBoxes){
-                showCollisionBoxes = true;
-            }
-        }
+        if (pressed.contains(KeyEvent.VK_K))
+            asteroids.add(new Asteroid(Conversor.getAdaptedResolutionWidth(new Random().nextInt(Conversor.getWidth() - Conversor.getAdaptedResolutionWidth(48))), Conversor.getAdaptedResolutionHeight(-48)));
+
+        if (pressed.contains(KeyEvent.VK_H))
+            showCollisionBoxes = !showCollisionBoxes;
 
 
         int timeBtwShot =25;
-        if (actualTime > timeBtwShot){
+        if (actualTime > timeBtwShot && !gameOver){
             if (pressed.contains(KeyEvent.VK_SPACE)){
                 misils.add(new Misil(ship.getXpos() + Conversor.getAdaptedResolutionWidth(20), ship.getYpos() - Conversor.getAdaptedResolutionHeight(10)));
                 actualTime = 0;
