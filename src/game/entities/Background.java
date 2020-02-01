@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class Background {
 
-    private int speed = 1;
     private int x, y;
 
     private Image bg_img;
@@ -39,6 +38,7 @@ public class Background {
     }
 
     public void moveBg(){
+        int speed = 1;
         this.y += speed;
 
         if (this.y >= Conversor.getAdaptedResolutionHeight(600)){
