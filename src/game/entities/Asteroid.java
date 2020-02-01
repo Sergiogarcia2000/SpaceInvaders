@@ -1,5 +1,7 @@
 package game.entities;
 
+import game.Conversor;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -9,6 +11,8 @@ public class Asteroid {
 
     private int x, y;
     private int lifeTime = 300;
+    private int xSize = Conversor.getAdaptedResolutionWidth(48);
+    private int ySize = Conversor.getAdaptedResolutionHeight(48);
 
     private Image asteroid_img;
 
@@ -37,5 +41,14 @@ public class Asteroid {
 
     public int getLifeTime(){ return this.lifeTime; }
     public void setLifeTime(){ this.lifeTime--; }
+
+    public int getxSize(){ return this.xSize; }
+    public int getySize(){ return this.ySize; }
+
+    public void destroy(){ this.x = 5000;}
+
+    public Rectangle getCollisionBox(){
+        return new Rectangle(this.x + Conversor.getAdaptedResolutionWidth(10), this.y + Conversor.getAdaptedResolutionWidth(10), this.xSize - Conversor.getAdaptedResolutionWidth(20), this.ySize - Conversor.getAdaptedResolutionHeight(15));
+    }
 
 }

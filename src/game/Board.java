@@ -27,6 +27,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private final Set<Integer> pressed = new HashSet<>();
     private int actualTime = 0;
 
+    private boolean showCollisionBoxes = false;
+
     public Board(){
         ship = new Ship();
 
@@ -52,8 +54,11 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
 
     private void drawAsteroid(Graphics2D g2D){
-        for (Asteroid asteroid : asteroids)
-            g2D.drawImage(asteroid.getAsteroid_img(), asteroid.getX(), asteroid.getY(), 48, 48, null);
+        for (Asteroid asteroid : asteroids) {
+            g2D.drawImage(asteroid.getAsteroid_img(), asteroid.getX(), asteroid.getY(), asteroid.getxSize(), asteroid.getySize(), null);
+            if (showCollisionBoxes)
+                g2D.draw(asteroid.getCollisionBox());
+        }
     }
 
     private void drawBackground(Graphics2D g2D){
@@ -70,11 +75,18 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         bg4.moveBg();
     }
 
-    private void drawShip(Graphics2D g2D){ g2D.drawImage(ship.getImage(), (int)ship.getXpos(), (int)ship.getYpos(), Conversor.getAdaptedResolutionWidth(64), Conversor.getAdaptedResolutionHeight(64), null); }
+    private void drawShip(Graphics2D g2D){
+        g2D.drawImage(ship.getImage(), (int)ship.getXpos(), (int)ship.getYpos(), ship.getxSize(), ship.getySize(), null);
+        if (showCollisionBoxes)
+            g2D.draw(ship.getCollisionBox());
+    }
 
-    private void drawMissil(Graphics2D g2D){
-        for (Misil misil : misils)
-            g2D.drawImage(misil.getImg(), (int)misil.getX(), (int)misil.getY(), Conversor.getAdaptedResolutionWidth(32), Conversor.getAdaptedResolutionHeight(32), null);
+    private void drawMissil(Graphics2D g2D) {
+        for (Misil misil : misils){
+            g2D.drawImage(misil.getImg(), (int) misil.getX(), (int) misil.getY(), misil.getxSize(), misil.getySize(), null);
+            if (showCollisionBoxes)
+                g2D.draw(misil.getCollisionBox());
+        }
     }
 
     private void missilTick(){
@@ -82,13 +94,32 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         for (Misil misil : misils){
             misil.moveMisil();
             misil.setLifeTime();
-            if (misil.getLifeTime() <= 0)
-                misils.remove(misil);
+        }
+
+        for (Misil misil : misils) {
+            for (Asteroid asteroid : asteroids) {
+                if (misil.getCollisionBox().intersects(asteroid.getCollisionBox())) {
+                    misil.destroy();
+                    asteroid.destroy();
+                }
+            }
+        }
+
+        for (int i = 0; i < misils.size(); i++){
+            if (misils.get(i).getLifeTime() <= 0)
+                misils.remove(misils.get(i));
         }
 
         //System.out.println("Misils shooted: " + misils.size());
     }
-    private void shipTick(){ ship.move();}
+    private void shipTick(){
+        ship.move();
+
+        if (ship.getLife() <= 0){
+            ship.setVisible(false);
+        }
+
+    }
     private void asteroidTick(){
 
             for (Asteroid asteroid : asteroids) {
@@ -97,11 +128,18 @@ public class Board extends JPanel implements ActionListener, KeyListener{
             }
 
             for (int i = 0; i < asteroids.size(); i++){
+                if (asteroids.get(i).getCollisionBox().intersects(ship.getCollisionBox())) {
+                    ship.setLife(-1);
+                    asteroids.remove(asteroids.get(i));
+                }
+            }
+
+            for (int i = 0; i < asteroids.size(); i++){
                 if (asteroids.get(i).getLifeTime() <= 0)
                     asteroids.remove(asteroids.get(i));
             }
 
-        System.out.println("Asteroids: " + asteroids.size());
+        //System.out.println("Asteroids: " + asteroids.size());
     }
 
     private void tick(){
@@ -135,6 +173,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         if (pressed.contains(KeyEvent.VK_K)){
             asteroids.add(new Asteroid(Conversor.getAdaptedResolutionWidth(new Random().nextInt(Conversor.getWidth() - Conversor.getAdaptedResolutionWidth(48))), Conversor.getAdaptedResolutionHeight(-48)));
         }
+
+        if (pressed.contains(KeyEvent.VK_H)){
+            if (showCollisionBoxes){
+                showCollisionBoxes = false;
+            }else if (!showCollisionBoxes){
+                showCollisionBoxes = true;
+            }
+        }
+
 
         int timeBtwShot =25;
         if (actualTime > timeBtwShot){

@@ -15,6 +15,8 @@ public class Ship extends JPanel{
     private double velX = 0;
     private double x;
     private double y;
+    private int xSize = Conversor.getAdaptedResolutionWidth(64);
+    private int ySize = Conversor.getAdaptedResolutionHeight(64);
     private int life = 3;
 
     private BufferedImage ship_img = null;
@@ -65,6 +67,17 @@ public class Ship extends JPanel{
         }
     }
 
+    public Rectangle getCollisionBox(){
+        return new Rectangle((int)this.x + Conversor.getAdaptedResolutionWidth(10), (int)this.y, this.xSize - Conversor.getAdaptedResolutionWidth(20), this.ySize);
+    }
+
+    public int getxSize() {
+        return xSize;
+    }
+
+    public int getySize(){
+        return this.ySize;
+    }
 
     public int getLife(){
         return this.life;
@@ -76,5 +89,6 @@ public class Ship extends JPanel{
      */
     public void setLife(int num){
         this.life += num;
+        System.out.println("Tocado, vida restante: " + this.life);
     }
 }
