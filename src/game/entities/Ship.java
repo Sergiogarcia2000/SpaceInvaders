@@ -1,4 +1,6 @@
-package game;
+package game.entities;
+
+import game.Conversor;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -22,8 +24,8 @@ public class Ship extends JPanel{
 
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
-        x = screen.getWidth()/5;
-        y = screen.getHeight() / 2.3;
+        x = Conversor.getAdaptedResolutionWidth((int)screen.getWidth() / 5);
+        y = Conversor.getAdaptedResolutionHeight(475);
 
         try{
             ship_img = ImageIO.read(new File("./src/assets/ship.png"));
@@ -54,7 +56,13 @@ public class Ship extends JPanel{
 
 
     public void move(){
-        this.x += this.velX;
+        if (this.x + Conversor.getAdaptedResolutionWidth(64) >= Conversor.getWidth()){
+            this.x -= 1;
+        }else if (this.x <= 0){
+            this.x += 1;
+        }else{
+            this.x += this.velX;
+        }
     }
 
 

@@ -1,4 +1,4 @@
-package game;
+package game.entities;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.io.IOException;
 public class Asteroid {
 
     private int x, y;
-    private int speed = 2;
+    private int lifeTime = 300;
 
     private Image asteroid_img;
 
@@ -25,15 +25,17 @@ public class Asteroid {
 
     }
 
-    public Image getAsteroid_img(){
-        return this.asteroid_img;
+    public Image getAsteroid_img(){ return this.asteroid_img; }
+
+    public int getX(){ return this.x; }
+    public int getY(){ return this.y; }
+
+    public void moveAsteroid(){
+        int speed = 2;
+        this.y += speed;
     }
 
-    public int getX(){
-        return this.x;
-    }
-    public int getY(){
-        return this.y;
-    }
+    public int getLifeTime(){ return this.lifeTime; }
+    public void setLifeTime(){ this.lifeTime--; }
 
 }

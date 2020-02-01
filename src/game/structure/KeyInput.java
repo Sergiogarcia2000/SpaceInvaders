@@ -1,22 +1,24 @@
-package game;
+package game.structure;
+
+import game.Board;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
 
-    Layout0 layout0;
+    Board board;
 
-    public KeyInput(Layout0 layout0){
-        this.layout0 = layout0;
+    public KeyInput(Board board){
+        this.board = board;
     }
 
     public void keyPressed(KeyEvent e){
-        layout0.keyPressed(e);
+        board.keyPressed(e);
     }
 
     public void keyReleased(KeyEvent e){
-        layout0.keyReleased(e);
+        board.keyReleased(e);
     }
 
 }

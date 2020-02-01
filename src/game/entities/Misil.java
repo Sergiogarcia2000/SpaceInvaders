@@ -1,4 +1,4 @@
-package game;
+package game.entities;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -8,8 +8,8 @@ import java.io.IOException;
 public class Misil {
 
     private double x, y;
-    private int speed = 1;
-    private int lifeTime = 1200;
+    private int speed = 10;
+    private int lifeTime = 800;
 
     private Image misil_img;
 

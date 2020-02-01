@@ -1,4 +1,6 @@
-package game;
+package game.entities;
+
+import game.Conversor;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -34,6 +36,14 @@ public class Background {
     }
     public int getY(){
         return this.y;
+    }
+
+    public void moveBg(){
+        this.y += speed;
+
+        if (this.y >= Conversor.getAdaptedResolutionHeight(600)){
+            this.y = Conversor.getAdaptedResolutionHeight(-600);
+        }
     }
 
 }
