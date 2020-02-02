@@ -1,5 +1,6 @@
-package game;
+package game.structure;
 import game.entities.*;
+import game.structure.Conversor;
 import game.structure.KeyInput;
 
 import javax.swing.*;
@@ -24,6 +25,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private ArrayList<Alien> aliens = new ArrayList<>();
     private final Set<Integer> pressed = new HashSet<>();
     private int actualTime = 0;
+    int waves = 0;
 
     private boolean unpaused, gameOver;
     private boolean showCollisionBoxes = false;
@@ -200,6 +202,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
             }
     }
 
+    private void generateAsteroid(){
+        asteroids.add(new Asteroid(Conversor.getAdaptedResolutionWidth(new Random().nextInt(Conversor.getWidth() - Conversor.getAdaptedResolutionWidth(48))), Conversor.getAdaptedResolutionHeight(-48)));
+    }
+
     private void alienTick(){
         for (Alien alien : aliens) {
             alien.movement();
@@ -217,6 +223,22 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         alienTick();
         shipTick();
         asteroidTick();
+
+        int timeBtwWave = 25;
+        int timeBtwWaves = 200;
+        if (waves < 10 && actualTime > timeBtwWave) {
+            for (int i = 0; i < 10; i++){
+                generateAsteroid();
+                System.out.println("OLEADA GENERADA");
+                actualTime = 0;
+            }
+            waves++;
+        }
+
+        if (actualTime > timeBtwWaves)
+            waves = 0;
+
+
     }
 
     @Override
@@ -251,12 +273,23 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         }
 
         if (pressed.contains(KeyEvent.VK_K))
-            asteroids.add(new Asteroid(Conversor.getAdaptedResolutionWidth(new Random().nextInt(Conversor.getWidth() - Conversor.getAdaptedResolutionWidth(48))), Conversor.getAdaptedResolutionHeight(-48)));
+            generateAsteroid();
+
+        if (pressed.contains(KeyEvent.VK_O)){
+
+            for (int i = 0; i < 20; i++) {
+                try {
+                    generateAsteroid();
+                } catch (Exception x) {
+                    x.printStackTrace();
+                }
+            }
+        }
 
         if (pressed.contains(KeyEvent.VK_H))
             showCollisionBoxes = !showCollisionBoxes;
 
-        int timeBtwAlien = 20;
+        int timeBtwAlien = 30;
         if (pressed.contains(KeyEvent.VK_G) && actualTime > timeBtwAlien) {
             aliens.add(new Alien());
             actualTime = 0;

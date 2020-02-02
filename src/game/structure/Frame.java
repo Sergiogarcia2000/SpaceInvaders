@@ -1,9 +1,5 @@
 package game.structure;
 
-import game.Board;
-import game.Conversor;
-
-import java.awt.*;
 import javax.swing.*;
 
 public class Frame extends JFrame{

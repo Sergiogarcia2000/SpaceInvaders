@@ -1,7 +1,5 @@
 package game.structure;
 
-import game.Board;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 

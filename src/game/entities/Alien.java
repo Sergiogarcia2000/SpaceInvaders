@@ -1,7 +1,6 @@
 package game.entities;
 
-import game.Conversor;
-import org.omg.PortableInterceptor.DISCARDING;
+import game.structure.Conversor;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -10,10 +9,10 @@ import java.io.IOException;
 
 public class Alien {
 
-    private int x = 10, y = 10;
+    private int x = Conversor.getAdaptedResolutionWidth(10), y = Conversor.getAdaptedResolutionHeight(10);
     private int lifeTime = 5000;
-    private int xSize = 48;
-    private int ySize = 48;
+    private int xSize = Conversor.getAdaptedResolutionWidth(48);
+    private int ySize = Conversor.getAdaptedResolutionHeight(48);
     private boolean direction = true;
     private boolean destroyed = false;
 
@@ -57,10 +56,10 @@ public class Alien {
 
             if (this.x >= Conversor.getWidth() - this.xSize) {
                 direction = !direction;
-                this.y += ySize + 10;
+                this.y += ySize;
             } else if (this.x <= 1) {
                 direction = !direction;
-                this.y += ySize + 10;
+                this.y += ySize;
             }
 
             int speed = 2;

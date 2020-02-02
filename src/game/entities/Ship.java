@@ -1,6 +1,6 @@
 package game.entities;
 
-import game.Conversor;
+import game.structure.Conversor;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

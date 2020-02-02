@@ -1,4 +1,4 @@
-package game;
+package game.structure;
 
 import java.awt.*;
 
