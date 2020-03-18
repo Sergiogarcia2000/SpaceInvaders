@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Asteroid extends Entity{
 
-    private int lifeTime = 300;
+    private int lifeTime = Conversor.getAdaptedResolutionWidth(400);
     private Image asteroid_img;
 
     public Asteroid(int x,int y){
@@ -21,7 +21,6 @@ public class Asteroid extends Entity{
         }catch (IOException e) {
             System.out.println("Imagen del asteroide no encontrada");
         }
-
     }
 
     public Image getAsteroid_img(){ return this.asteroid_img; }
@@ -34,17 +33,19 @@ public class Asteroid extends Entity{
     public int getLifeTime(){ return this.lifeTime; }
     public void setLifeTime(){ this.lifeTime--; }
 
-
-    public void destroy(){
-        if (this.size > 20){
-            this.size -= 20;
-        }else{
-            this.x = 5000;
+    public void hit(){
+        if (this.size >= 30){
+            this.size -= Ship.getInstance().getDamage();
         }
+        System.out.println(this.size);
+        if(this.size <= 30){
+            this.x = Integer.MIN_VALUE;
+            this.y = Integer.MIN_VALUE;
+        }
+        Ship.setScore(Ship.getScore() + Ship.getInstance().getDamage());
     }
 
     public Rectangle getCollisionBox(){
-        return new Rectangle((int) this.x + Conversor.getAdaptedResolutionWidth(10), (int)this.y + Conversor.getAdaptedResolutionWidth(10), this.size - Conversor.getAdaptedResolutionWidth(20), this.size - Conversor.getAdaptedResolutionHeight(15));
+        return new Rectangle((int) this.x + Conversor.getAdaptedResolutionWidth(10), (int)this.y + Conversor.getAdaptedResolutionWidth(10), this.size - Conversor.getAdaptedResolutionHeight(15), this.size - Conversor.getAdaptedResolutionHeight(15));
     }
-
 }

@@ -12,9 +12,11 @@ public class Ship extends Entity{
 
     private double velX = 0;
     private int life = 3;
+    private int damage = 30;
+    private static int score = 0;
 
     private BufferedImage ship_img = null;
-
+    private static Ship ship;
 
     public Ship(){
         super(Conversor.getAdaptedResolutionWidth((int)Conversor.RESOLUTION.getWidth() / 5), Conversor.getAdaptedResolutionHeight(475), Conversor.getAdaptedResolutionWidth(64));
@@ -26,6 +28,26 @@ public class Ship extends Entity{
         }
     }
 
+    public static Ship getInstance(){
+        if (ship == null){
+            ship = new Ship();
+            return ship;
+        }else{
+            return ship;
+        }
+    }
+
+    public static int getScore(){
+        return score;
+    }
+    public static void setScore(int newScore){
+        score = newScore;
+    }
+
+    public static void restart(){
+        ship = new Ship();
+    }
+
     public BufferedImage getImage(){
         return ship_img;
     }
@@ -33,7 +55,6 @@ public class Ship extends Entity{
     public void setVelX(double velX){
         this.velX = velX;
     }
-
 
     public void move(){
         if (this.x + Conversor.getAdaptedResolutionWidth(64) >= Conversor.getWidth()){
@@ -47,6 +68,10 @@ public class Ship extends Entity{
 
     public Rectangle getCollisionBox(){
         return new Rectangle((int)this.x + Conversor.getAdaptedResolutionWidth(10), (int)this.y, this.size - Conversor.getAdaptedResolutionWidth(20), this.size);
+    }
+
+    public int getDamage(){
+        return this.damage;
     }
 
     public int getLife(){

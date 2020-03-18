@@ -12,7 +12,6 @@ import java.util.*;
 
 public class Board extends JPanel implements ActionListener, KeyListener{
 
-    Ship ship;
     Background bg = new Background(Conversor.getAdaptedResolutionWidth(0), 0);
     Background bg2 = new Background(Conversor.getAdaptedResolutionWidth(337), 0);
     Background bg3 = new Background(Conversor.getAdaptedResolutionWidth(0), Conversor.getAdaptedResolutionHeight(600));
@@ -23,13 +22,14 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private ArrayList<Alien> aliens = new ArrayList<>();
     private final Set<Integer> pressed = new HashSet<>();
     private int actualTime = 0;
-    int waves = 0;
+    private int weaveTime = 0;
+    private int waves = 0;
+
 
     private boolean unpaused, gameOver;
     private boolean showCollisionBoxes = false;
 
     public Board() {
-        ship = new Ship();
 
         unpaused = true;
         gameOver = false;
@@ -57,13 +57,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         }else if (gameOver){
             drawGameOverScreen(g2D);
         }
-
-        actualTime++;
-
     }
 
     private void restartGame(){
-        ship = new Ship();
+        Ship.restart();
         misils.clear();
         asteroids.clear();
         pressed.clear();
@@ -100,6 +97,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void drawAsteroid(Graphics2D g2D){
         for (Asteroid asteroid : asteroids) {
             g2D.drawImage(asteroid.getAsteroid_img(),(int) asteroid.getX(), (int) asteroid.getY(), asteroid.getSize(), asteroid.getSize(), null);
+            //g2D.drawString(Integer.toString(asteroid.getSize()), (int)asteroid.getX(),(int) asteroid.getY());
+
             if (showCollisionBoxes)
                 g2D.draw(asteroid.getCollisionBox());
         }
@@ -123,13 +122,17 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void drawShip(Graphics2D g2D){
         g2D.setPaint(Color.GREEN);
         g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(30)));
-        g2D.drawString("LIFE: " + ship.getLife(), Conversor.getAdaptedResolutionWidth(10), Conversor.getAdaptedResolutionHeight(30));
+        g2D.drawString("SCORE: " + Ship.getScore(), Conversor.getAdaptedResolutionWidth(10), Conversor.getAdaptedResolutionHeight(30));
+
+        for (int i = 1; i < Ship.getInstance().getLife() + 1; i++){
+            g2D.drawImage(Ship.getInstance().getImage(), Conversor.getAdaptedResolutionHeight(i * 25), Conversor.getHeight() - Conversor.getAdaptedResolutionWidth(80), Ship.getInstance().getSize() - 32, Ship.getInstance().getSize() - 32, null);
+        }
 
         g2D.setPaint(Color.gray);
 
-        g2D.drawImage(ship.getImage(), (int)ship.getX(), (int)ship.getY(), ship.getSize(), ship.getSize(), null);
+        g2D.drawImage(Ship.getInstance().getImage(), (int)Ship.getInstance().getX(), (int)Ship.getInstance().getY(), Ship.getInstance().getSize(), Ship.getInstance().getSize(), null);
         if (showCollisionBoxes)
-            g2D.draw(ship.getCollisionBox());
+            g2D.draw(Ship.getInstance().getCollisionBox());
     }
 
     private void drawMissil(Graphics2D g2D) {
@@ -151,7 +154,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
             for (Asteroid asteroid : asteroids) {
                 if (misil.getCollisionBox().intersects(asteroid.getCollisionBox())) {
                     misil.destroy();
-                    asteroid.destroy();
+                    asteroid.hit();
                 }
             }
 
@@ -171,9 +174,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         //System.out.println("Misils shooted: " + misils.size());
     }
     private void shipTick(){
-        ship.move();
+        Ship.getInstance().move();
 
-        if (ship.getLife() <= 0){
+        if (Ship.getInstance().getLife() <= 0){
             gameOver = true;
         }
 
@@ -187,9 +190,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
             }
 
             for (int i = 0; i < asteroids.size(); i++){
-                if (asteroids.get(i).getCollisionBox().intersects(ship.getCollisionBox())) {
-                    ship.setLife(-1);
-                    System.out.println("Tocado");
+                if (asteroids.get(i).getCollisionBox().intersects(Ship.getInstance().getCollisionBox())) {
+                    Ship.getInstance().setLife(-1);
                     asteroids.remove(asteroids.get(i));
                 }
             }
@@ -207,9 +209,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void alienTick(){
         for (Alien alien : aliens) {
             alien.movement();
-            if (alien.getY() + alien.getSize() >= ship.getY()){
+            if (alien.getY() + alien.getSize() >= Ship.getInstance().getY()){
                 gameOver = true;
-                System.out.println("Paso un alien");
             }
         }
 
@@ -224,16 +225,19 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
         int timeBtwWave = 25;
         int timeBtwWaves = 200;
-        if (waves < 10 && actualTime > timeBtwWave) {
+        if (waves < 10 && weaveTime > timeBtwWave) {
             for (int i = 0; i < 3; i++) {
                 generateAsteroid();
-                actualTime = 0;
+                weaveTime = 0;
             }
             waves++;
         }
 
-        if (actualTime > timeBtwWaves)
+        if (weaveTime > timeBtwWaves)
             waves = 0;
+
+        actualTime++;
+        weaveTime++;
     }
 
     @Override
@@ -253,10 +257,10 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         pressed.add(e.getKeyCode());
 
         if (pressed.contains(KeyEvent.VK_D)) {
-            ship.setVelX(Conversor.getAdaptedResolutionWidth(8));
+            Ship.getInstance().setVelX(Conversor.getAdaptedResolutionWidth(8));
 
         }else if (pressed.contains(KeyEvent.VK_A)) {
-           ship.setVelX(Conversor.getAdaptedResolutionWidth(-8));
+           Ship.getInstance().setVelX(Conversor.getAdaptedResolutionWidth(-8));
         }
 
         if (pressed.contains(KeyEvent.VK_ESCAPE) && !gameOver)
@@ -294,17 +298,17 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         int timeBtwShot = 10;
         if (actualTime > timeBtwShot && !gameOver){
             if (pressed.contains(KeyEvent.VK_SPACE)){
-                misils.add(new Misil(ship.getX() + Conversor.getAdaptedResolutionWidth(20), ship.getY() - Conversor.getAdaptedResolutionHeight(10)));
+                misils.add(new Misil(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(20), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(10)));
                 actualTime = 0;
             }
         }
     }
 
     @Override
-    public synchronized void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_A) {
-            ship.setVelX(0);
+            Ship.getInstance().setVelX(0);
         }
 
         pressed.remove(e.getKeyCode());
