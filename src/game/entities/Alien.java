@@ -7,40 +7,29 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Alien {
+public class Alien extends Entity{
 
-    private int x = Conversor.getAdaptedResolutionWidth(10), y = Conversor.getAdaptedResolutionHeight(10);
     private int lifeTime = 5000;
-    private int xSize = Conversor.getAdaptedResolutionWidth(48);
-    private int ySize = Conversor.getAdaptedResolutionHeight(48);
     private boolean direction = true;
     private boolean destroyed = false;
 
     private Image alienImg;
 
     public Alien(){
-
+        super(Conversor.getAdaptedResolutionWidth(10), Conversor.getAdaptedResolutionHeight(10),Conversor.getAdaptedResolutionWidth(48));
         try{
             alienImg = ImageIO.read(new File("./src/assets/alien.png"));
         }catch (IOException e){
             System.out.println("No se encontró imagen del misil");
         }
-
     }
 
     public Image getAlienImg(){
         return alienImg;
     }
 
-    public int getX(){
-        return this.x;
-    }
-    public int getY(){
-        return this.y;
-    }
-
     public Rectangle getCollisionBox(){
-        return new Rectangle(this.x, this.y, this.xSize, this.ySize);
+        return new Rectangle((int)this.x, (int)this.y, this.size, this.size);
     }
 
     public void destroy(){
@@ -49,17 +38,16 @@ public class Alien {
         destroyed = true;
     }
 
-    public int getySize(){return this.ySize;}
     public void movement(){
 
         if (!destroyed) {
 
-            if (this.x >= Conversor.getWidth() - this.xSize) {
+            if (this.x >= Conversor.getWidth() - this.size) {
                 direction = !direction;
-                this.y += ySize;
+                this.y += this.size;
             } else if (this.x <= 1) {
                 direction = !direction;
-                this.y += ySize;
+                this.y += this.size;
             }
 
             int speed = 2;

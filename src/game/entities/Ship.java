@@ -3,31 +3,21 @@ package game.entities;
 import game.structure.Conversor;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Ship extends JPanel{
-
+public class Ship extends Entity{
 
     private double velX = 0;
-    private double x;
-    private double y;
-    private int xSize = Conversor.getAdaptedResolutionWidth(64);
-    private int ySize = Conversor.getAdaptedResolutionHeight(64);
     private int life = 3;
 
     private BufferedImage ship_img = null;
 
 
     public Ship(){
-
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-
-        x = Conversor.getAdaptedResolutionWidth((int)screen.getWidth() / 5);
-        y = Conversor.getAdaptedResolutionHeight(475);
+        super(Conversor.getAdaptedResolutionWidth((int)Conversor.RESOLUTION.getWidth() / 5), Conversor.getAdaptedResolutionHeight(475), Conversor.getAdaptedResolutionWidth(64));
 
         try{
             ship_img = ImageIO.read(new File("./src/assets/ship.png"));
@@ -38,18 +28,6 @@ public class Ship extends JPanel{
 
     public BufferedImage getImage(){
         return ship_img;
-    }
-
-    public void setImage(BufferedImage img){
-        this.ship_img = img;
-    }
-
-    public double getXpos(){
-        return this.x;
-    }
-
-    public double getYpos(){
-        return this.y;
     }
 
     public void setVelX(double velX){
@@ -68,15 +46,7 @@ public class Ship extends JPanel{
     }
 
     public Rectangle getCollisionBox(){
-        return new Rectangle((int)this.x + Conversor.getAdaptedResolutionWidth(10), (int)this.y, this.xSize - Conversor.getAdaptedResolutionWidth(20), this.ySize);
-    }
-
-    public int getxSize() {
-        return xSize;
-    }
-
-    public int getySize(){
-        return this.ySize;
+        return new Rectangle((int)this.x + Conversor.getAdaptedResolutionWidth(10), (int)this.y, this.size - Conversor.getAdaptedResolutionWidth(20), this.size);
     }
 
     public int getLife(){

@@ -7,18 +7,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Misil {
+public class Misil extends Entity{
 
-    private double x, y;
-    private int xSize = Conversor.getAdaptedResolutionWidth(32);
-    private int ySize = Conversor.getAdaptedResolutionHeight(32);
     private int lifeTime = 800;
-
     private Image misil_img;
 
     public Misil(double x, double y){
-        this.x = x;
-        this.y = y;
+        super(x, y, Conversor.getAdaptedResolutionWidth(32));
 
         try{
             misil_img = ImageIO.read(new File("./src/assets/misil.png"));
@@ -32,20 +27,10 @@ public class Misil {
         return misil_img;
     }
 
-    public double getX(){
-        return this.x;
-    }
-    public double getY(){
-        return this.y;
-    }
-
-    public int getxSize(){ return this.xSize; }
-    public int getySize(){ return this.ySize; }
-
     public void destroy(){ this.x = 50000;}
 
     public Rectangle getCollisionBox(){
-        return new Rectangle((int)this.x + Conversor.getAdaptedResolutionWidth(5), (int)this.y, this.xSize - Conversor.getAdaptedResolutionWidth(13), this.ySize);
+        return new Rectangle((int)this.x + Conversor.getAdaptedResolutionWidth(5), (int)this.y, this.size - Conversor.getAdaptedResolutionWidth(13), this.size);
     }
 
     public int getLifeTime(){
