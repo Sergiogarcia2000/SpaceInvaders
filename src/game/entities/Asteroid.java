@@ -1,5 +1,6 @@
 package game.entities;
 
+import game.sounds.PlaySound;
 import game.structure.Conversor;
 
 import javax.imageio.ImageIO;
@@ -34,6 +35,9 @@ public class Asteroid extends Entity{
     public void setLifeTime(){ this.lifeTime--; }
 
     public void hit(){
+
+        PlaySound.play("./src/assets/Explosion.wav");
+
         if (this.size >= 30){
             this.size -= Ship.getInstance().getDamage();
         }

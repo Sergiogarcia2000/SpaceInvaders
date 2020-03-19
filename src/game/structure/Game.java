@@ -1,5 +1,7 @@
 package game.structure;
 
+import game.sounds.Music;
+
 import javax.swing.*;
 
 public class Game {
@@ -8,6 +10,8 @@ public class Game {
 
         // INSTANCIAMOS EL FRAME
         Frame ventana = new Frame();
+
+        Music.play("./src/assets/Music.wav");
 
         // SETTEAMOS CONFIGURACIONES DEL FRAME
         ventana.setVisible(true);

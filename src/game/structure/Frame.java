@@ -14,8 +14,13 @@ public class Frame extends JFrame{
         //INSTANCIA DE LAYOUT
 
         Board board = new Board();
+        Hud hud = new Hud();
 
         add(board);
+        add(hud);
+
+        board.setBounds(0, 0, Conversor.getWidth(), Conversor.getHeight() - 80);
+        hud.setBounds(0, Conversor.getHeight() - 80, Conversor.getWidth(), 80);
 
         //AÑADE EL ESCUCHADOR DE TECLAS
         addKeyListener(board);

@@ -1,5 +1,6 @@
 package game.structure;
 import game.entities.*;
+import game.sounds.PlaySound;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -122,12 +123,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void drawShip(Graphics2D g2D){
         g2D.setPaint(Color.GREEN);
         g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(30)));
-        g2D.drawString("SCORE: " + Ship.getScore(), Conversor.getAdaptedResolutionWidth(10), Conversor.getAdaptedResolutionHeight(30));
-
-        for (int i = 1; i < Ship.getInstance().getLife() + 1; i++){
-            g2D.drawImage(Ship.getInstance().getImage(), Conversor.getAdaptedResolutionHeight(i * 25), Conversor.getHeight() - Conversor.getAdaptedResolutionWidth(80), Ship.getInstance().getSize() - 32, Ship.getInstance().getSize() - 32, null);
-        }
-
         g2D.setPaint(Color.gray);
 
         g2D.drawImage(Ship.getInstance().getImage(), (int)Ship.getInstance().getX(), (int)Ship.getInstance().getY(), Ship.getInstance().getSize(), Ship.getInstance().getSize(), null);
@@ -300,6 +295,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
             if (pressed.contains(KeyEvent.VK_SPACE)){
                 misils.add(new Misil(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(20), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(10)));
                 actualTime = 0;
+                PlaySound.play("./src/assets/shot.wav");
             }
         }
     }

@@ -13,7 +13,7 @@ public class Ship extends Entity{
     private double velX = 0;
     private int life = 3;
     private int damage = 30;
-    private static int score = 0;
+    private static int score = 1000000;
 
     private BufferedImage ship_img = null;
     private static Ship ship;
