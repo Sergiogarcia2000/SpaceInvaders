@@ -19,7 +19,7 @@ public class Background {
         this.y = y;
 
         try{
-            bg_img = ImageIO.read(new File("./src/assets/background.png"));
+            bg_img = ImageIO.read(new File("./src/assets/sprites/background.png"));
         }catch (IOException e){
             e.printStackTrace();
         }

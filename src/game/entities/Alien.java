@@ -18,7 +18,7 @@ public class Alien extends Entity{
     public Alien(){
         super(Conversor.getAdaptedResolutionWidth(10), Conversor.getAdaptedResolutionHeight(10),Conversor.getAdaptedResolutionWidth(48));
         try{
-            alienImg = ImageIO.read(new File("./src/assets/alien.png"));
+            alienImg = ImageIO.read(new File("./src/assets/sprites/alien.png"));
         }catch (IOException e){
             System.out.println("No se encontró imagen del misil");
         }
@@ -42,7 +42,7 @@ public class Alien extends Entity{
 
         if (!destroyed) {
 
-            if (this.x >= Conversor.getWidth() - this.size) {
+            if (this.x >= Conversor.WIDTH - this.size) {
                 direction = !direction;
                 this.y += this.size;
             } else if (this.x <= 1) {

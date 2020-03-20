@@ -16,11 +16,8 @@ public abstract class Music {
 
             FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 
-            volume.setValue(20f * (float) Math.log10(0.1));
+            volume.setValue(20f * (float) Math.log10(0.2));
             clip.start();
-
-
-
             clip.loop(Clip.LOOP_CONTINUOUSLY);
 
         } catch (Exception e) {

@@ -11,7 +11,7 @@ public class Game {
         // INSTANCIAMOS EL FRAME
         Frame ventana = new Frame();
 
-        Music.play("./src/assets/Music.wav");
+        Music.play("./src/assets/sounds/Music.wav");
 
         // SETTEAMOS CONFIGURACIONES DEL FRAME
         ventana.setVisible(true);

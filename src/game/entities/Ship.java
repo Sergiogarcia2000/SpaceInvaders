@@ -1,5 +1,7 @@
 package game.entities;
 
+import game.sounds.PlaySound;
+import game.sounds.Sounds;
 import game.structure.Conversor;
 
 import javax.imageio.ImageIO;
@@ -13,7 +15,6 @@ public class Ship extends Entity{
     private double velX = 0;
     private int life = 3;
     private int damage = 30;
-    private static int score = 1000000;
 
     private BufferedImage ship_img = null;
     private static Ship ship;
@@ -22,7 +23,7 @@ public class Ship extends Entity{
         super(Conversor.getAdaptedResolutionWidth((int)Conversor.RESOLUTION.getWidth() / 5), Conversor.getAdaptedResolutionHeight(475), Conversor.getAdaptedResolutionWidth(64));
 
         try{
-            ship_img = ImageIO.read(new File("./src/assets/ship.png"));
+            ship_img = ImageIO.read(new File("./src/assets/sprites/ship.png"));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -31,17 +32,8 @@ public class Ship extends Entity{
     public static Ship getInstance(){
         if (ship == null){
             ship = new Ship();
-            return ship;
-        }else{
-            return ship;
         }
-    }
-
-    public static int getScore(){
-        return score;
-    }
-    public static void setScore(int newScore){
-        score = newScore;
+        return ship;
     }
 
     public static void restart(){
@@ -57,7 +49,7 @@ public class Ship extends Entity{
     }
 
     public void move(){
-        if (this.x + Conversor.getAdaptedResolutionWidth(64) >= Conversor.getWidth()){
+        if (this.x + Conversor.getAdaptedResolutionWidth(64) >= Conversor.WIDTH){
             this.x -= 1;
         }else if (this.x <= 0){
             this.x += 1;
@@ -83,7 +75,7 @@ public class Ship extends Entity{
     * @param NUM: cantidad de vida que se va a sumar o restar
      */
     public void setLife(int num){
+        PlaySound.play(Sounds.COLLISION.getPath());
         this.life += num;
-        System.out.println("Tocado, vida restante: " + this.life);
     }
 }

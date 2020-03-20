@@ -1,6 +1,7 @@
 package game.structure;
 
 import game.entities.Ship;
+import game.settings.Score;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class Hud extends JPanel implements ActionListener {
 
     public Hud(){
         try{
-            hudImg = ImageIO.read(new File("./src/assets/UnderBar.png"));
+            hudImg = ImageIO.read(new File("./src/assets/sprites/UnderBar.png"));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -30,19 +31,19 @@ public class Hud extends JPanel implements ActionListener {
         Graphics2D g2D = (Graphics2D) g;
 
         // DRAWING HUD BACKGROUND
-        g2D.drawImage(hudImg, 0, Conversor.getHeight() - 80, Conversor.getWidth() - 16, 40, null);
+        g2D.drawImage(hudImg, 0, Conversor.HEIGHT - 80, Conversor.WIDTH - 16, 40, null);
 
 
         // DRAW LIFES
 
         for (int i = 1; i < Ship.getInstance().getLife() + 1; i++){
-            g2D.drawImage(Ship.getInstance().getImage(), Conversor.getAdaptedResolutionWidth(i * 25), Conversor.getHeight() - 75, Ship.getInstance().getSize() - 58, Ship.getInstance().getSize() - 58, null);
+            g2D.drawImage(Ship.getInstance().getImage(), Conversor.getAdaptedResolutionWidth(i * 25), Conversor.HEIGHT - 75, Ship.getInstance().getSize() - 58, Ship.getInstance().getSize() - 58, null);
         }
 
         // DRAW SCORE
         g2D.setColor(Color.GREEN);
         g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(18)));
-        g2D.drawString("SCORE: " + Ship.getScore(),Conversor.getWidth() - Conversor.getAdaptedResolutionWidth(200),Conversor.getHeight() - Conversor.getAdaptedResolutionHeight(38));
+        g2D.drawString("SCORE: " + Score.getScore(),Conversor.WIDTH - Conversor.getAdaptedResolutionWidth(200),Conversor.HEIGHT - Conversor.getAdaptedResolutionHeight(38));
 
     }
 

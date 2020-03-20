@@ -12,10 +12,6 @@ public class Entity {
         this.size = size;
     }
 
-    public void setX(double x){
-        this.x += x;
-    }
-
     public double getX(){
         return this.x;
     }

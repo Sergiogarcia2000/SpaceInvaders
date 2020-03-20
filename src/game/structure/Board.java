@@ -1,6 +1,8 @@
 package game.structure;
 import game.entities.*;
+import game.settings.Score;
 import game.sounds.PlaySound;
+import game.sounds.Sounds;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -10,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
+import java.util.List;
 
 public class Board extends JPanel implements ActionListener, KeyListener{
 
@@ -18,14 +21,15 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     Background bg3 = new Background(Conversor.getAdaptedResolutionWidth(0), Conversor.getAdaptedResolutionHeight(600));
     Background bg4 = new Background(Conversor.getAdaptedResolutionWidth(337), Conversor.getAdaptedResolutionHeight(600));
 
-    private ArrayList<Misil> misils = new ArrayList<>();
-    private ArrayList<Asteroid> asteroids = new ArrayList<>();
-    private ArrayList<Alien> aliens = new ArrayList<>();
+    private List<Laser> lasers = new ArrayList<>();
+    private List<Asteroid> asteroids = new ArrayList<>();
+    private List<Alien> aliens = new ArrayList<>();
+    private List<Ore> ores = new ArrayList<>();
+
     private final Set<Integer> pressed = new HashSet<>();
     private int actualTime = 0;
     private int weaveTime = 0;
     private int waves = 0;
-
 
     private boolean unpaused, gameOver;
     private boolean showCollisionBoxes = false;
@@ -52,6 +56,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         drawMissil(g2D);
         drawAsteroid(g2D);
         drawAlien(g2D);
+        drawOre(g2D);
 
         if (!unpaused) {
             drawPausedScreen(g2D);
@@ -61,8 +66,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
 
     private void restartGame(){
+        PlaySound.play(Sounds.DIE.getPath());
         Ship.restart();
-        misils.clear();
+        lasers.clear();
         asteroids.clear();
         pressed.clear();
         aliens.clear();
@@ -71,18 +77,18 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void drawGameOverScreen(Graphics2D g2D){
         g2D.setPaint(Color.red);
         g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(30)));
-        g2D.drawString("GAME OVER", Conversor.getAdaptedResolutionWidth(250), Conversor.getHeight() / 2);
+        g2D.drawString("GAME OVER", Conversor.getAdaptedResolutionWidth(250), Conversor.HEIGHT / 2);
         g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(15)));
-        g2D.drawString("Press ENTER to restart", Conversor.getAdaptedResolutionWidth(260), (Conversor.getHeight() / 2) + Conversor.getAdaptedResolutionWidth(20));
+        g2D.drawString("Press ENTER to restart", Conversor.getAdaptedResolutionWidth(260), (Conversor.WIDTH / 2) + Conversor.getAdaptedResolutionWidth(20));
 
     }
 
     private void drawPausedScreen(Graphics2D g2D){
         g2D.setPaint(Color.WHITE);
         g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(30)));
-        g2D.drawString("GAME PAUSED", Conversor.getAdaptedResolutionWidth(250), Conversor.getHeight() / 2);
+        g2D.drawString("GAME PAUSED", Conversor.getAdaptedResolutionWidth(250), Conversor.HEIGHT / 2);
         g2D.setFont(new Font("Calibri",Font.BOLD,Conversor.getAdaptedResolutionWidth(15)));
-        g2D.drawString("Press ESC to resume", Conversor.getAdaptedResolutionWidth(280), (Conversor.getHeight() / 2) + Conversor.getAdaptedResolutionWidth(20));
+        g2D.drawString("Press ESC to resume", Conversor.getAdaptedResolutionWidth(280), (Conversor.HEIGHT / 2) + Conversor.getAdaptedResolutionWidth(20));
     }
 
     private void drawAlien(Graphics2D g2D){
@@ -102,6 +108,16 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
             if (showCollisionBoxes)
                 g2D.draw(asteroid.getCollisionBox());
+        }
+    }
+
+    private void drawOre(Graphics2D g2D){
+        for (Ore ore : ores){
+            g2D.drawImage(ore.getOreImg(),(int) ore.getX(),(int) ore.getY(), ore.getSize(), ore.getSize(), null);
+
+            if (showCollisionBoxes){
+                g2D.draw(ore.getCollisionBox());
+            }
         }
     }
 
@@ -131,43 +147,60 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
 
     private void drawMissil(Graphics2D g2D) {
-        for (Misil misil : misils){
-            g2D.drawImage(misil.getImg(), (int) misil.getX(), (int) misil.getY(), misil.getSize(), misil.getSize(), null);
+        for (Laser laser : lasers){
+            g2D.drawImage(laser.getImg(), (int) laser.getX(), (int) laser.getY(), laser.getSize(), laser.getSize(), null);
             if (showCollisionBoxes)
-                g2D.draw(misil.getCollisionBox());
+                g2D.draw(laser.getCollisionBox());
         }
     }
 
     private void missilTick(){
 
-        for (Misil misil : misils){
-            misil.moveMisil();
-            misil.setLifeTime();
+        for (Laser laser : lasers){
+            laser.moveMisil();
+            laser.setLifeTime();
         }
 
-        for (Misil misil : misils) {
+        for (Laser laser : lasers) {
             for (Asteroid asteroid : asteroids) {
-                if (misil.getCollisionBox().intersects(asteroid.getCollisionBox())) {
-                    misil.destroy();
+                if (laser.getCollisionBox().intersects(asteroid.getCollisionBox())) {
+                    laser.destroy();
                     asteroid.hit();
+                    int chance = new Random().nextInt(100);
+
+                    if (chance < 3){
+                        ores.add(new Ore(asteroid.getX() + (asteroid.getSize() / 2), asteroid.getY() + (asteroid.getSize() / 2)));
+                    }
                 }
             }
 
             for (Alien alien : aliens){
-                if (misil.getCollisionBox().intersects(alien.getCollisionBox())){
-                    misil.destroy();
+                if (laser.getCollisionBox().intersects(alien.getCollisionBox())){
+                    laser.destroy();
                     alien.destroy();
                 }
             }
         }
 
-        for (int i = 0; i < misils.size(); i++){
-            if (misils.get(i).getLifeTime() <= 0)
-                misils.remove(misils.get(i));
+        for (int i = 0; i < lasers.size(); i++){
+            if (lasers.get(i).getLifeTime() <= 0)
+                lasers.remove(lasers.get(i));
         }
 
         //System.out.println("Misils shooted: " + misils.size());
     }
+
+    private void oreTick(){
+
+        for(int i = 0; i < ores.size(); i++){
+            ores.get(i).move();
+
+            if (ores.get(i).destroy()){
+                ores.remove(ores.get(i));
+            }
+        }
+    }
+
     private void shipTick(){
         Ship.getInstance().move();
 
@@ -175,6 +208,14 @@ public class Board extends JPanel implements ActionListener, KeyListener{
             gameOver = true;
         }
 
+        for (int i = 0; i < ores.size(); i++){
+
+            if (ores.get(i).getCollisionBox().intersects(Ship.getInstance().getCollisionBox())){
+                Score.setScore(ores.get(i).getScore());
+                ores.remove(ores.get(i));
+                PlaySound.play(Sounds.ORE.getPath());
+            }
+        }
     }
 
     private void asteroidTick(){
@@ -198,7 +239,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
 
     private void generateAsteroid(){
-        asteroids.add(new Asteroid(Conversor.getAdaptedResolutionWidth(new Random().nextInt(Conversor.getWidth() - Conversor.getAdaptedResolutionWidth(48))), Conversor.getAdaptedResolutionHeight(-48)));
+        asteroids.add(new Asteroid(Conversor.getAdaptedResolutionWidth(new Random().nextInt(Conversor.WIDTH - Conversor.getAdaptedResolutionWidth(48))), Conversor.getAdaptedResolutionHeight(-48)));
     }
 
     private void alienTick(){
@@ -213,10 +254,12 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
     private void tick(){
 
+
         missilTick();
         alienTick();
         shipTick();
         asteroidTick();
+        oreTick();
 
         int timeBtwWave = 25;
         int timeBtwWaves = 200;
@@ -293,9 +336,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         int timeBtwShot = 10;
         if (actualTime > timeBtwShot && !gameOver){
             if (pressed.contains(KeyEvent.VK_SPACE)){
-                misils.add(new Misil(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(20), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(10)));
+                lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(20), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(10)));
                 actualTime = 0;
-                PlaySound.play("./src/assets/shot.wav");
+                PlaySound.play(Sounds.LASER.getPath());
             }
         }
     }

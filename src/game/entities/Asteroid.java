@@ -1,6 +1,8 @@
 package game.entities;
 
+import game.settings.Score;
 import game.sounds.PlaySound;
+import game.sounds.Sounds;
 import game.structure.Conversor;
 
 import javax.imageio.ImageIO;
@@ -18,7 +20,7 @@ public class Asteroid extends Entity{
         super(x, y, new Random().nextInt(80) + 20);
 
         try {
-            asteroid_img = ImageIO.read(new File("./src/assets/asteroid.png"));
+            asteroid_img = ImageIO.read(new File("./src/assets/sprites/asteroid.png"));
         }catch (IOException e) {
             System.out.println("Imagen del asteroide no encontrada");
         }
@@ -36,7 +38,7 @@ public class Asteroid extends Entity{
 
     public void hit(){
 
-        PlaySound.play("./src/assets/Explosion.wav");
+        PlaySound.play(Sounds.EXPLOSION.getPath());
 
         if (this.size >= 30){
             this.size -= Ship.getInstance().getDamage();
@@ -46,7 +48,7 @@ public class Asteroid extends Entity{
             this.x = Integer.MIN_VALUE;
             this.y = Integer.MIN_VALUE;
         }
-        Ship.setScore(Ship.getScore() + Ship.getInstance().getDamage());
+        Score.setScore(Ship.getInstance().getDamage());
     }
 
     public Rectangle getCollisionBox(){

@@ -8,7 +8,7 @@ public class Frame extends JFrame{
     public Frame(){
 
         this.setTitle("Space Adventures");
-        this.setBounds(Conversor.getAdaptedResolutionWidth((int)Conversor.getResolution().getWidth()/4), Conversor.getAdaptedResolutionHeight((int) Conversor.getResolution().getHeight() / 10),Conversor.getWidth(), Conversor.getHeight());
+        this.setBounds(Conversor.getAdaptedResolutionWidth((int)Conversor.getResolution().getWidth()/4), Conversor.getAdaptedResolutionHeight((int) Conversor.getResolution().getHeight() / 10),Conversor.WIDTH, Conversor.HEIGHT);
         this.setResizable(false);
 
         //INSTANCIA DE LAYOUT
@@ -19,8 +19,8 @@ public class Frame extends JFrame{
         add(board);
         add(hud);
 
-        board.setBounds(0, 0, Conversor.getWidth(), Conversor.getHeight() - 80);
-        hud.setBounds(0, Conversor.getHeight() - 80, Conversor.getWidth(), 80);
+        board.setBounds(0, 0, Conversor.WIDTH, Conversor.HEIGHT - 80);
+        hud.setBounds(0, Conversor.HEIGHT - 80, Conversor.WIDTH, 80);
 
         //AÑADE EL ESCUCHADOR DE TECLAS
         addKeyListener(board);
