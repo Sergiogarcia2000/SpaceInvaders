@@ -34,6 +34,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private boolean unpaused, gameOver;
     private boolean showCollisionBoxes = false;
 
+    private static Board board;
+
     public Board() {
 
         unpaused = true;
@@ -43,9 +45,21 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
     }
 
+    public static Board getInstance(){
+        if (board == null){
+            board = new Board();
+        }
+        return board;
+    }
+
+    public void togglePause(){
+        this.unpaused = !this.unpaused;
+    }
+
+    @Override
     public void paintComponent(Graphics g){
 
-        super.paintComponent(g);//heredo lo que hace paintcomponent
+        super.paintComponent(g);
         setLayout(null);
         setBackground(Color.BLACK);
         addKeyListener(new KeyInput(this));
@@ -168,7 +182,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
                     asteroid.hit();
                     int chance = new Random().nextInt(100);
 
-                    if (chance < 3){
+                    if (chance < 1){
                         ores.add(new Ore(asteroid.getX() + (asteroid.getSize() / 2), asteroid.getY() + (asteroid.getSize() / 2)));
                     }
                 }
@@ -314,13 +328,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
         if (pressed.contains(KeyEvent.VK_O)){
 
-            for (int i = 0; i < 20; i++) {
-                try {
-                    generateAsteroid();
-                } catch (Exception x) {
-                    x.printStackTrace();
-                }
-            }
         }
 
         if (pressed.contains(KeyEvent.VK_H))

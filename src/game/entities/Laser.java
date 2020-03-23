@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class Laser extends Entity{
 
     private int lifeTime = 800;
-    private Image misil_img;
 
     private int imageFps = 0;
     private ArrayList<Image> images = new ArrayList<>();
@@ -21,9 +20,7 @@ public class Laser extends Entity{
 
         try{
             for (int i = 1; i < 4; i++){
-                System.out.println("./src/assets/sprites/laser_anim/LaserAnim" + i + ".png");
                 images.add(ImageIO.read(new File("./src/assets/sprites/laser_anim/LaserAnim" + i + ".png")));
-                System.out.println(images.size());
             }
         }catch (IOException e){
             System.out.println("No se encontró imagen del misil");
