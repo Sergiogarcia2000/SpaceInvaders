@@ -1,5 +1,6 @@
 package game.entities;
 
+import game.settings.Damage;
 import game.settings.Score;
 import game.sounds.PlaySound;
 import game.sounds.Sounds;
@@ -41,14 +42,14 @@ public class Asteroid extends Entity{
         PlaySound.play(Sounds.EXPLOSION.getPath());
 
         if (this.size >= 30){
-            this.size -= Ship.getInstance().getDamage();
+            this.size -= Damage.getDamage();
         }
         System.out.println(this.size);
         if(this.size <= 30){
             this.x = Integer.MIN_VALUE;
             this.y = Integer.MIN_VALUE;
         }
-        Score.setScore(Ship.getInstance().getDamage());
+        Score.setScore(Damage.getDamage());
     }
 
     public Rectangle getCollisionBox(){

@@ -1,5 +1,6 @@
 package game.structure;
 
+import game.settings.Life;
 import game.sounds.Music;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ public class Game {
     public static void main(String[] args){
 
 
+        Life.restartLife();
         // INSTANCIAMOS EL FRAME
         Frame ventana = new Frame();
 

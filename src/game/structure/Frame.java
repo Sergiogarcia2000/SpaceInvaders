@@ -26,16 +26,20 @@ public class Frame extends JFrame implements KeyListener {
 
         Board.getInstance().add(sm);
 
+        sm.setEnabled(false);
         sm.setVisible(false);
         //AÑADE EL ESCUCHADOR DE TECLAS
         addKeyListener(Board.getInstance());
         addKeyListener(this);
+        addMouseListener(sm);
     }
 
     private void toggleShopMenu(){
-        if (this.sm.isVisible()){
+        if (this.sm.isEnabled()){
+            sm.setEnabled(false);
             sm.setVisible(false);
         }else{
+            sm.setEnabled(true);
             sm.setVisible(true);
         }
     }

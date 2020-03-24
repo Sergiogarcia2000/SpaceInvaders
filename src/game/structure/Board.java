@@ -1,6 +1,9 @@
 package game.structure;
+
 import game.entities.*;
+import game.settings.Life;
 import game.settings.Score;
+import game.settings.Turrets;
 import game.sounds.PlaySound;
 import game.sounds.Sounds;
 
@@ -16,10 +19,7 @@ import java.util.List;
 
 public class Board extends JPanel implements ActionListener, KeyListener{
 
-    Background bg = new Background(Conversor.getAdaptedResolutionWidth(0), 0);
-    Background bg2 = new Background(Conversor.getAdaptedResolutionWidth(337), 0);
-    Background bg3 = new Background(Conversor.getAdaptedResolutionWidth(0), Conversor.getAdaptedResolutionHeight(600));
-    Background bg4 = new Background(Conversor.getAdaptedResolutionWidth(337), Conversor.getAdaptedResolutionHeight(600));
+
 
     private List<Laser> lasers = new ArrayList<>();
     private List<Asteroid> asteroids = new ArrayList<>();
@@ -42,7 +42,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         gameOver = false;
         Timer timer = new Timer(15, this);
         timer.start();
-
     }
 
     public static Board getInstance(){
@@ -81,7 +80,9 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
     private void restartGame(){
         PlaySound.play(Sounds.DIE.getPath());
+
         Ship.restart();
+        Life.restartLife();
         lasers.clear();
         asteroids.clear();
         pressed.clear();
@@ -139,15 +140,12 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         int bgWidth = Conversor.getAdaptedResolutionWidth(337);
         int bgHeight = Conversor.getAdaptedResolutionHeight(600);
 
-        g2D.drawImage(bg.getImg(), bg.getX(), bg.getY(), bgWidth, bgHeight, null);
-        g2D.drawImage(bg2.getImg(), bg2.getX(), bg2.getY(),bgWidth, bgHeight, null);
-        g2D.drawImage(bg3.getImg(), bg3.getX(), bg3.getY(),bgWidth, bgHeight, null);
-        g2D.drawImage(bg4.getImg(), bg4.getX(), bg4.getY(),bgWidth, bgHeight, null);
+        List<Background> bgList = Background.getBackgroundList();
 
-        bg.moveBg();
-        bg2.moveBg();
-        bg3.moveBg();
-        bg4.moveBg();
+        for (Background bg : bgList){
+            g2D.drawImage(bg.getImg(), bg.getX(), bg.getY(), bgWidth, bgHeight, null);
+            bg.moveBg();
+        }
     }
 
     private void drawShip(Graphics2D g2D){
@@ -200,8 +198,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
             if (lasers.get(i).getLifeTime() <= 0)
                 lasers.remove(lasers.get(i));
         }
-
-        //System.out.println("Misils shooted: " + misils.size());
     }
 
     private void oreTick(){
@@ -218,7 +214,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private void shipTick(){
         Ship.getInstance().move();
 
-        if (Ship.getInstance().getLife() <= 0){
+        if (Life.getLife() <= 0){
             gameOver = true;
         }
 
@@ -241,7 +237,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
             for (int i = 0; i < asteroids.size(); i++){
                 if (asteroids.get(i).getCollisionBox().intersects(Ship.getInstance().getCollisionBox())) {
-                    Ship.getInstance().setLife(-1);
+                    Life.setLife(-1);
                     asteroids.remove(asteroids.get(i));
                 }
             }
@@ -326,10 +322,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         if (pressed.contains(KeyEvent.VK_K))
             generateAsteroid();
 
-        if (pressed.contains(KeyEvent.VK_O)){
-
-        }
-
         if (pressed.contains(KeyEvent.VK_H))
             showCollisionBoxes = !showCollisionBoxes;
 
@@ -343,9 +335,23 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         int timeBtwShot = 10;
         if (actualTime > timeBtwShot && !gameOver){
             if (pressed.contains(KeyEvent.VK_SPACE)){
-                lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(20), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(10)));
                 actualTime = 0;
-                PlaySound.play(Sounds.LASER.getPath());
+                if (Turrets.getTurrets() == 1){
+                    lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(17), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(10)));
+                    PlaySound.play(Sounds.LASER.getPath());
+                }else if (Turrets.getTurrets() == 2){
+                    lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(5), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(5)));
+                    lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(30), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(5)));
+                    PlaySound.play(Sounds.LASER.getPath());
+                    PlaySound.play(Sounds.LASER.getPath());
+                }else{
+                    lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(5), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(5)));
+                    lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(30), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(5)));
+                    lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(17), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(10)));
+                    PlaySound.play(Sounds.LASER.getPath());
+                    PlaySound.play(Sounds.LASER.getPath());
+                    PlaySound.play(Sounds.LASER.getPath());
+                }
             }
         }
     }

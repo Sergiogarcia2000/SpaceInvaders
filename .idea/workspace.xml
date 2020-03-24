@@ -2,18 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1f13eaa7-fa18-4013-a481-590cebb7124a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/assets/sprites/shop_sprites/life.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sprites/shop_sprites/score.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/sprites/shop_sprites/turret.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/game/structure/ShopMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/game/settings/Damage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/game/settings/Life.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/game/settings/Turrets.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Space-Adventures/game/entities/Laser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Space-Adventures/game/entities/Laser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Space-Adventures/game/entities/Ore.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Space-Adventures/game/entities/Ore.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Space-Adventures/game/entities/Asteroid.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Space-Adventures/game/entities/Asteroid.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Space-Adventures/game/entities/Background.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Space-Adventures/game/entities/Background.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Space-Adventures/game/entities/Ship.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Space-Adventures/game/entities/Ship.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Space-Adventures/game/structure/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Space-Adventures/game/structure/Board.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Space-Adventures/game/structure/Frame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Space-Adventures/game/structure/Frame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game/entities/Laser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entities/Laser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Space-Adventures/game/structure/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Space-Adventures/game/structure/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Space-Adventures/game/structure/Hud.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Space-Adventures/game/structure/Hud.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/entities/Asteroid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entities/Asteroid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/entities/Background.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entities/Background.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/entities/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/entities/Ship.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/structure/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/structure/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/game/structure/Frame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/structure/Frame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/structure/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/structure/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/structure/Hud.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/structure/Hud.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/game/structure/ShopMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/game/structure/ShopMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,10 +112,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1032" y="618" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1584720866994" />
-    <state x="593" y="382" key="#com.intellij.ide.util.MemberChooser" timestamp="1584968849948">
+    <state x="593" y="382" key="#com.intellij.ide.util.MemberChooser" timestamp="1585073332301">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="593" y="382" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1584968849948" />
+    <state x="593" y="382" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1585073332301" />
     <state x="751" y="361" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1584561246153">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -124,50 +130,50 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1580562973396" />
-    <state width="1877" height="159" key="GridCell.Tab.0.bottom" timestamp="1584997230276">
+    <state width="1877" height="125" key="GridCell.Tab.0.bottom" timestamp="1585079433627">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="981" height="2" key="GridCell.Tab.0.bottom/0.0.1024.728@0.0.1024.728" timestamp="1580585773782" />
     <state width="1323" height="2" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1584471905448" />
-    <state width="1877" height="159" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584997230276" />
+    <state width="1877" height="125" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585079433627" />
     <state width="757" height="41" key="GridCell.Tab.0.bottom/0.0.800.560@0.0.800.560" timestamp="1580572579801" />
-    <state width="1877" height="159" key="GridCell.Tab.0.center" timestamp="1584997230276">
+    <state width="1877" height="125" key="GridCell.Tab.0.center" timestamp="1585079433627">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="981" height="2" key="GridCell.Tab.0.center/0.0.1024.728@0.0.1024.728" timestamp="1580585773782" />
     <state width="1323" height="2" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1584471905448" />
-    <state width="1877" height="159" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584997230276" />
+    <state width="1877" height="125" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585079433627" />
     <state width="757" height="41" key="GridCell.Tab.0.center/0.0.800.560@0.0.800.560" timestamp="1580572579801" />
-    <state width="1877" height="159" key="GridCell.Tab.0.left" timestamp="1584997230275">
+    <state width="1877" height="125" key="GridCell.Tab.0.left" timestamp="1585079433627">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="981" height="2" key="GridCell.Tab.0.left/0.0.1024.728@0.0.1024.728" timestamp="1580585773782" />
     <state width="1323" height="2" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1584471905448" />
-    <state width="1877" height="159" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584997230275" />
+    <state width="1877" height="125" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585079433627" />
     <state width="757" height="41" key="GridCell.Tab.0.left/0.0.800.560@0.0.800.560" timestamp="1580572579801" />
-    <state width="1877" height="159" key="GridCell.Tab.0.right" timestamp="1584997230276">
+    <state width="1877" height="125" key="GridCell.Tab.0.right" timestamp="1585079433627">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="981" height="2" key="GridCell.Tab.0.right/0.0.1024.728@0.0.1024.728" timestamp="1580585773782" />
     <state width="1323" height="2" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1584471905448" />
-    <state width="1877" height="159" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584997230276" />
+    <state width="1877" height="125" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585079433627" />
     <state width="757" height="41" key="GridCell.Tab.0.right/0.0.800.560@0.0.800.560" timestamp="1580572579801" />
-    <state width="1877" height="324" key="GridCell.Tab.1.bottom" timestamp="1584993612541">
+    <state width="1877" height="324" key="GridCell.Tab.1.bottom" timestamp="1585073857791">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="324" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584993612541" />
-    <state width="1877" height="324" key="GridCell.Tab.1.center" timestamp="1584993612541">
+    <state width="1877" height="324" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585073857791" />
+    <state width="1877" height="324" key="GridCell.Tab.1.center" timestamp="1585073857791">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="324" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584993612541" />
-    <state width="1877" height="324" key="GridCell.Tab.1.left" timestamp="1584993612541">
+    <state width="1877" height="324" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585073857791" />
+    <state width="1877" height="324" key="GridCell.Tab.1.left" timestamp="1585073857791">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="324" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584993612541" />
-    <state width="1877" height="324" key="GridCell.Tab.1.right" timestamp="1584993612541">
+    <state width="1877" height="324" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585073857791" />
+    <state width="1877" height="324" key="GridCell.Tab.1.right" timestamp="1585073857791">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="324" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584993612541" />
+    <state width="1877" height="324" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585073857791" />
     <state x="625" y="218" key="NewModule_or_Project.wizard" timestamp="1576575079092">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -176,11 +182,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="358" y="302" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1584565082663" />
-    <state x="661" y="342" key="com.intellij.ide.util.TipDialog" timestamp="1584962228972">
+    <state x="661" y="342" key="com.intellij.ide.util.TipDialog" timestamp="1585072175134">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="470" y="239" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1584383616452" />
-    <state x="661" y="342" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584962228972" />
+    <state x="661" y="342" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585072175134" />
     <state x="492" y="281" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580579486786">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

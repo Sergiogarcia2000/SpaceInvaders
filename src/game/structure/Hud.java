@@ -1,6 +1,7 @@
 package game.structure;
 
 import game.entities.Ship;
+import game.settings.Life;
 import game.settings.Score;
 
 import javax.imageio.ImageIO;
@@ -33,10 +34,8 @@ public class Hud extends JPanel implements ActionListener {
         // DRAWING HUD BACKGROUND
         g2D.drawImage(hudImg, 0, Conversor.HEIGHT - 80, Conversor.WIDTH - 16, 40, null);
 
-
         // DRAW LIFES
-
-        for (int i = 1; i < Ship.getInstance().getLife() + 1; i++){
+        for (int i = 1; i < Life.getLife() + 1; i++){
             g2D.drawImage(Ship.getInstance().getImage(), Conversor.getAdaptedResolutionWidth(i * 25), Conversor.HEIGHT - 75, Ship.getInstance().getSize() - 58, Ship.getInstance().getSize() - 58, null);
         }
 

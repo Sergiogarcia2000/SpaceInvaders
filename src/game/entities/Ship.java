@@ -5,16 +5,14 @@ import game.sounds.Sounds;
 import game.structure.Conversor;
 
 import javax.imageio.ImageIO;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class Ship extends Entity{
 
     private double velX = 0;
-    private int life = 3;
-    private int damage = 30;
 
     private BufferedImage ship_img = null;
     private static Ship ship;
@@ -60,22 +58,5 @@ public class Ship extends Entity{
 
     public Rectangle getCollisionBox(){
         return new Rectangle((int)this.x + Conversor.getAdaptedResolutionWidth(10), (int)this.y, this.size - Conversor.getAdaptedResolutionWidth(20), this.size);
-    }
-
-    public int getDamage(){
-        return this.damage;
-    }
-
-    public int getLife(){
-        return this.life;
-    }
-
-    /*
-    * SETTER PARA CAMBIAR LA VIDA
-    * @param NUM: cantidad de vida que se va a sumar o restar
-     */
-    public void setLife(int num){
-        PlaySound.play(Sounds.COLLISION.getPath());
-        this.life += num;
     }
 }
