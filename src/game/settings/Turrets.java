@@ -38,6 +38,10 @@ public class Turrets {
         return -1;
     }
 
+    public static int getUpgradePrice(){
+        return getTurrets() * 750000;
+    }
+
     public static void setTurrets(int num){
 
         try {

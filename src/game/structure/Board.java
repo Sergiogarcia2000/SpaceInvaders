@@ -5,7 +5,6 @@ import game.settings.Life;
 import game.settings.Score;
 import game.settings.Turrets;
 import game.sounds.PlaySound;
-import game.sounds.Sounds;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -16,6 +15,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
+
+import static game.sounds.Sounds.*;
 
 public class Board extends JPanel implements ActionListener, KeyListener{
 
@@ -79,7 +80,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     }
 
     private void restartGame(){
-        PlaySound.play(Sounds.DIE.getPath());
+        PlaySound.play(DIE.getPath());
 
         Ship.restart();
         Life.restartLife();
@@ -223,7 +224,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
             if (ores.get(i).getCollisionBox().intersects(Ship.getInstance().getCollisionBox())){
                 Score.setScore(ores.get(i).getScore());
                 ores.remove(ores.get(i));
-                PlaySound.play(Sounds.ORE.getPath());
+                PlaySound.play(ORE.getPath());
             }
         }
     }
@@ -311,9 +312,6 @@ public class Board extends JPanel implements ActionListener, KeyListener{
            Ship.getInstance().setVelX(Conversor.getAdaptedResolutionWidth(-8));
         }
 
-        if (pressed.contains(KeyEvent.VK_ESCAPE) && !gameOver)
-            unpaused = !unpaused;
-
         if (pressed.contains(KeyEvent.VK_ENTER) && gameOver) {
             gameOver = false;
             restartGame();
@@ -338,19 +336,19 @@ public class Board extends JPanel implements ActionListener, KeyListener{
                 actualTime = 0;
                 if (Turrets.getTurrets() == 1){
                     lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(17), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(10)));
-                    PlaySound.play(Sounds.LASER.getPath());
+                    PlaySound.play(LASER.getPath());
                 }else if (Turrets.getTurrets() == 2){
                     lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(5), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(5)));
                     lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(30), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(5)));
-                    PlaySound.play(Sounds.LASER.getPath());
-                    PlaySound.play(Sounds.LASER.getPath());
+                    PlaySound.play(LASER.getPath());
+                    PlaySound.play(LASER.getPath());
                 }else{
                     lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(5), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(5)));
                     lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(30), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(5)));
                     lasers.add(new Laser(Ship.getInstance().getX() + Conversor.getAdaptedResolutionWidth(17), Ship.getInstance().getY() - Conversor.getAdaptedResolutionHeight(10)));
-                    PlaySound.play(Sounds.LASER.getPath());
-                    PlaySound.play(Sounds.LASER.getPath());
-                    PlaySound.play(Sounds.LASER.getPath());
+                    PlaySound.play(LASER.getPath());
+                    PlaySound.play(LASER.getPath());
+                    PlaySound.play(LASER.getPath());
                 }
             }
         }

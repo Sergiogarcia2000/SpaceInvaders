@@ -3,7 +3,7 @@ package game.sounds;
 public enum Sounds {
 
     EXPLOSION("./src/assets/sounds/Explosion.wav"),
-    SHOT("./src/assets/sounds/shot.wav"),
+    POWERUP("./src/assets/sounds/PowerUp.wav"),
     COLLISION("./src/assets/sounds/Collision.wav"),
     LASER("./src/assets/sounds/Laser.wav"),
     DIE("./src/assets/sounds/Die.wav"),

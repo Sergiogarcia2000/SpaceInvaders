@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static game.sounds.Sounds.*;
+
 public class Life {
 
     private static String documentsDirectory = FileSystemView.getFileSystemView().getDefaultDirectory().getPath();
@@ -43,9 +45,13 @@ public class Life {
         return -1;
     }
 
+    public static int getUpgradePrice(){
+        return (Life.getBaseLife() - 2) * 250000;
+    }
+
     public static void setLife(int num){
 
-        PlaySound.play(Sounds.COLLISION.getPath());
+        PlaySound.play(COLLISION.getPath());
 
         try {
             List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get(dataPath), StandardCharsets.UTF_8));
@@ -88,8 +94,6 @@ public class Life {
     }
 
     public static void setBaseLife(int num){
-
-        PlaySound.play(Sounds.COLLISION.getPath());
 
         try {
             List<String> fileContent = new ArrayList<>(Files.readAllLines(Paths.get(dataPath), StandardCharsets.UTF_8));

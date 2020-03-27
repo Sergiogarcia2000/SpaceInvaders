@@ -1,11 +1,9 @@
 package game.entities;
 
-import game.sounds.PlaySound;
-import game.sounds.Sounds;
+
 import game.structure.Conversor;
 
 import javax.imageio.ImageIO;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;

@@ -1,5 +1,6 @@
 package game.structure;
 
+
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,7 +8,7 @@ import java.awt.event.KeyListener;
 public class Frame extends JFrame implements KeyListener {
 
     Hud hud = new Hud();
-    ShopMenu sm = new ShopMenu();
+    Menu sm = new Menu();
 
     // CREAMOS UN CONSTRUCTOR PARA EL FRAME
     public Frame(){
@@ -22,7 +23,7 @@ public class Frame extends JFrame implements KeyListener {
         Board.getInstance().setLayout(null);
         Board.getInstance().setBounds(0, 0, Conversor.WIDTH, Conversor.HEIGHT - 80);
         hud.setBounds(0, Conversor.HEIGHT - 80, Conversor.WIDTH, 80);
-        sm.setBounds(Conversor.getAdaptedResolutionWidth(250), Conversor.HEIGHT / 4, 250 ,100);
+        sm.setBounds(Conversor.getAdaptedResolutionWidth(250), Conversor.HEIGHT / 4, 250 ,150);
 
         Board.getInstance().add(sm);
 
@@ -47,19 +48,18 @@ public class Frame extends JFrame implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
-        if (keyEvent.getKeyChar() == 'o'){
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
             toggleShopMenu();
             Board.getInstance().togglePause();
         }
     }
 
     @Override
-    public void keyPressed(KeyEvent keyEvent) {
-
-    }
-
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
-
     }
 }

@@ -2,8 +2,9 @@ package game.entities;
 
 import game.settings.Damage;
 import game.settings.Score;
+import static game.sounds.Sounds.*;
+
 import game.sounds.PlaySound;
-import game.sounds.Sounds;
 import game.structure.Conversor;
 
 import javax.imageio.ImageIO;
@@ -39,12 +40,11 @@ public class Asteroid extends Entity{
 
     public void hit(){
 
-        PlaySound.play(Sounds.EXPLOSION.getPath());
+        PlaySound.play(EXPLOSION.getPath());
 
         if (this.size >= 30){
             this.size -= Damage.getDamage();
         }
-        System.out.println(this.size);
         if(this.size <= 30){
             this.x = Integer.MIN_VALUE;
             this.y = Integer.MIN_VALUE;
