@@ -1,6 +1,7 @@
 package game.structure;
 
 import game.entities.*;
+import game.settings.Damage;
 import game.settings.Life;
 import game.settings.Score;
 import game.settings.Turrets;
@@ -26,6 +27,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
     private List<Asteroid> asteroids = new ArrayList<>();
     private List<Alien> aliens = new ArrayList<>();
     private List<Ore> ores = new ArrayList<>();
+    private List<Enemy> enemies = new ArrayList<>();
+    private List<NegativeMisil> misils = new ArrayList<>();
 
     private final Set<Integer> pressed = new HashSet<>();
     private int actualTime = 0;
@@ -34,6 +37,8 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
     private boolean unpaused, gameOver;
     private boolean showCollisionBoxes = false;
+
+    private int asteroidRounds = 0;
 
     private static Board board;
 
@@ -67,10 +72,12 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
         drawBackground(g2D);
         drawShip(g2D);
-        drawMissil(g2D);
+        drawLaser(g2D);
         drawAsteroid(g2D);
         drawAlien(g2D);
         drawOre(g2D);
+        drawEnemiy(g2D);
+        drawNegativeMisil(g2D);
 
         if (!unpaused) {
             drawPausedScreen(g2D);
@@ -127,6 +134,18 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         }
     }
 
+    private void drawEnemiy(Graphics2D g2D){
+        for (Enemy enemy : enemies){
+            g2D.drawImage(enemy.getEnemyImg(), (int) enemy.getX(), (int) enemy.getY(), enemy.getSize(), enemy.getSize(), null);
+        }
+    }
+
+    private void drawNegativeMisil(Graphics2D g2D){
+        for (NegativeMisil misil : misils){
+            g2D.drawImage(misil.getMisilImg(), (int) misil.getX(),(int) misil.getY(), misil.getSize(), misil.getSize(),  null);
+        }
+    }
+
     private void drawOre(Graphics2D g2D){
         for (Ore ore : ores){
             g2D.drawImage(ore.getOreImg(),(int) ore.getX(),(int) ore.getY(), ore.getSize(), ore.getSize(), null);
@@ -159,7 +178,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
             g2D.draw(Ship.getInstance().getCollisionBox());
     }
 
-    private void drawMissil(Graphics2D g2D) {
+    private void drawLaser(Graphics2D g2D) {
         for (Laser laser : lasers){
             g2D.drawImage(laser.getImg(), (int) laser.getX(), (int) laser.getY(), laser.getSize(), laser.getSize(), null);
             if (showCollisionBoxes)
@@ -167,11 +186,21 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         }
     }
 
-    private void missilTick(){
+    private void laserTick(){
 
         for (Laser laser : lasers){
             laser.moveMisil();
             laser.setLifeTime();
+        }
+
+        for (Laser laser : lasers){
+            for (Enemy enemy : enemies){
+
+                if (laser.getCollisionBox().intersects(enemy.getCollisionBox())){
+                    laser.destroy();
+                    enemy.hit(Damage.getDamage());
+                }
+            }
         }
 
         for (Laser laser : lasers) {
@@ -198,6 +227,16 @@ public class Board extends JPanel implements ActionListener, KeyListener{
         for (int i = 0; i < lasers.size(); i++){
             if (lasers.get(i).getLifeTime() <= 0)
                 lasers.remove(lasers.get(i));
+        }
+    }
+
+    private void negativeMisilTick(){
+        for (NegativeMisil misil : misils){
+            misil.move();
+            if (misil.getCollisionBox().intersects(Ship.getInstance().getCollisionBox())){
+                misil.destroy();
+                Life.setLife(-1);
+            }
         }
     }
 
@@ -263,14 +302,37 @@ public class Board extends JPanel implements ActionListener, KeyListener{
 
     }
 
+    private void enemyTick(){
+        if (asteroidRounds / 10 >= 5){
+            enemies.add(new Enemy());
+            asteroidRounds = 0;
+        }
+
+        for(int i = 0; i < enemies.size(); i++){
+            if (enemies.get(i).isReadyToShot()){
+                misils.add(new NegativeMisil((int) enemies.get(i).getX(),(int) enemies.get(i).getY()));
+                enemies.get(i).misilShooted();
+            }
+
+            if (enemies.get(i).isDead()){
+                enemies.remove(enemies.get(i));
+            }else{
+                enemies.get(i).move();
+            }
+        }
+
+    }
+
     private void tick(){
 
 
-        missilTick();
+        laserTick();
         alienTick();
         shipTick();
         asteroidTick();
         oreTick();
+        enemyTick();
+        negativeMisilTick();
 
         int timeBtwWave = 25;
         int timeBtwWaves = 200;
@@ -280,6 +342,7 @@ public class Board extends JPanel implements ActionListener, KeyListener{
                 weaveTime = 0;
             }
             waves++;
+            asteroidRounds++;
         }
 
         if (weaveTime > timeBtwWaves)
